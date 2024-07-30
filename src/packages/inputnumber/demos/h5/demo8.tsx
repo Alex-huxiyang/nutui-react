@@ -8,8 +8,21 @@ const Demo8 = () => {
     setTimeout(() => {
       setInputValue(Number(value))
       Toast.clear()
-    }, 2000)
+    }, 200)
   }
-  return <InputNumber value={inputValue} min={-6} onChange={onChange} async />
+  const overlimit = (e) => {
+    console.log(e)
+    Toast.show({ content: '超出限制事件触发', icon: 'warn' })
+  }
+  return (
+    <InputNumber
+      onOverlimit={overlimit}
+      value={inputValue}
+      min={-6}
+      onChange={onChange}
+      async
+      max={10}
+    />
+  )
 }
 export default Demo8

@@ -24,7 +24,7 @@ export interface InputNumberProps extends BasicComponent {
   formatter?: (value?: string | number) => string
   onPlus: (e: React.MouseEvent) => void
   onMinus: (e: React.MouseEvent) => void
-  onOverlimit: (e: React.MouseEvent) => void
+  onOverlimit: (e: React.SyntheticEvent) => void
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void
   onFocus: (e: React.FocusEvent<HTMLInputElement>) => void
   onChange: (
@@ -205,6 +205,13 @@ export const InputNumber: FunctionComponent<
   }
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setFocused(false)
+    if (
+      Number(inputRef.current?.value) > Number(max) ||
+      Number(inputRef.current?.value) < Number(min)
+    ) {
+      onOverlimit?.(e)
+    }
+    // console.log(shadowValue, inputValue)
     onBlur && onBlur(e)
     if (async) {
       const valueStr = parseValue(e.target.value)
