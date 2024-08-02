@@ -29,9 +29,9 @@ export interface CalendarProps {
   renderDayTop?: (date: CalendarDay) => string | JSX.Element
   renderDayBottom?: (date: CalendarDay) => string | JSX.Element
   onClose?: () => void
-  onConfirm?: (param: string) => void
-  onDayClick?: (data: string) => void
-  onPageChange?: (param: string) => void
+  onConfirm?: (param: string[] | string[][]) => void
+  onDayClick?: (data: string[]) => void
+  onPageChange?: (param: string[]) => void
 }
 
 const defaultProps = {
@@ -58,9 +58,9 @@ const defaultProps = {
   renderDayTop: undefined,
   renderDayBottom: undefined,
   onClose: () => {},
-  onConfirm: (param: string) => {},
-  onDayClick: (data: string) => {},
-  onPageChange: (param: string) => {},
+  onConfirm: (param: string[]) => {},
+  onDayClick: (data: string[]) => {},
+  onPageChange: (param: string[]) => {},
 } as CalendarProps
 
 export const Calendar = React.forwardRef<
@@ -105,7 +105,7 @@ export const Calendar = React.forwardRef<
     onClose && onClose()
   }
 
-  const choose = (param: string) => {
+  const choose = (param: string[]) => {
     close()
     onConfirm && onConfirm(param)
   }
@@ -113,7 +113,7 @@ export const Calendar = React.forwardRef<
     close()
   }
 
-  const select = (param: string) => {
+  const select = (param: string[]) => {
     onDayClick && onDayClick(param)
   }
 
@@ -121,7 +121,7 @@ export const Calendar = React.forwardRef<
     calendarRef.current?.scrollToDate(date)
   }
 
-  const yearMonthChange = (param: string) => {
+  const yearMonthChange = (param: string[]) => {
     onPageChange && onPageChange(param)
   }
 

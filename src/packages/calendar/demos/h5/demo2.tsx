@@ -13,12 +13,13 @@ const Demo2 = () => {
     setIsVisible(false)
   }
 
-  const setChooseValue = (param: string) => {
+  const setChooseValue = (param: string[][]) => {
+    console.log('param', param)
     setDate([...[param[0][3], param[1][3]]])
   }
 
-  const select = (param: string) => {
-    console.log(param)
+  const select = (param: string[]) => {
+    console.log('param', param)
   }
 
   return (

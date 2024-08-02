@@ -58,9 +58,9 @@ export interface CalendarItemProps extends PopupProps {
   renderDay: (date: CalendarDay) => string | JSX.Element
   renderDayTop: (date: CalendarDay) => string | JSX.Element
   renderDayBottom: (date: CalendarDay) => string | JSX.Element
-  onConfirm: (data: string) => void
+  onConfirm: (data: string[]) => void
   onUpdate: () => void
-  onDayClick: (data: string) => void
+  onDayClick: (data: string[]) => void
   onPageChange: (data: any) => void
 }
 const defaultProps = {
@@ -84,10 +84,10 @@ const defaultProps = {
   renderDay: undefined,
   renderDayTop: undefined,
   renderDayBottom: undefined,
-  onConfirm: (data: string) => {},
+  onConfirm: (data: string[]) => {},
   onUpdate: () => {},
-  onDayClick: (data: string) => {},
-  onPageChange: (data: any) => {},
+  onDayClick: (data: string[]) => {},
+  onPageChange: (data: string[]) => {},
 } as unknown as CalendarItemProps
 
 export const CalendarItem = React.forwardRef<
@@ -197,8 +197,8 @@ export const CalendarItem = React.forwardRef<
       const y = parseInt(date[0], 10)
       const m = parseInt(date[1], 10)
       const days = [
-        ...(getPreMonthDates('prev', y, m, firstDayOfWeek) as CalendarDay[]),
-        ...(getDaysStatus('active', y, m) as CalendarDay[]),
+        ...getPreMonthDates('prev', y, m, firstDayOfWeek),
+        ...getDaysStatus('active', y, m),
       ]
       const cssHeight = 39 + (days.length > 35 ? 384 : 320)
 

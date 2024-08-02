@@ -16,12 +16,12 @@ const Demo1 = () => {
     setIsVisible(false)
   }
 
-  const setChooseValue = (param: string) => {
+  const setChooseValue = (param: string[]) => {
     setDate(param[3])
     setDateWeek(param[4])
   }
 
-  const select = (param: string) => {
+  const select = (param: string[]) => {
     console.log(param)
   }
 
