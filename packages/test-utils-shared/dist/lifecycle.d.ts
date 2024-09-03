@@ -1,0 +1,51 @@
+import type { AppInstance } from '@tarojs/runtime';
+import type { PageResizeObject, PageScrollObject, ShareAppMessageObject, TabItemTapObject } from '@tarojs/taro';
+export declare function proxyAppLifeCycle(app: AppInstance): void;
+export declare const app: {
+    onLaunch(): Promise<any>;
+    onShow(): Promise<any>;
+    onHide(): Promise<any>;
+    onError(): Promise<Error>;
+    onPageNotFound(): Promise<{
+        path: string;
+        query: object;
+        isEntryPage: boolean;
+    }>;
+    onUnhandledRejection(): Promise<{
+        reason: string;
+        promise: Promise<unknown>;
+    }>;
+};
+export declare const page: {
+    onLoad(path: string): Promise<void>;
+    onUnload(path: string): Promise<void>;
+    onShow(path: string): Promise<void>;
+    onHide(path: string): Promise<void>;
+    onReady(path: string): Promise<void>;
+    onPullDownRefresh(path: string): Promise<void>;
+    triggerPullDownRefresh(path: string): void;
+    onReachBottom(path: string): Promise<void>;
+    triggerReachBottom(path: string): void;
+    onPageScroll(path: string): Promise<void>;
+    triggerPageScroll(path: string, opt: PageScrollObject): void;
+    onAddToFavorites(path: string): Promise<void>;
+    triggerAddToFavorites(path: string): void;
+    onShareAppMessage(path: string): Promise<void>;
+    triggerShareAppMessage(path: string, opt: ShareAppMessageObject): void;
+    onShareTimeline(path: string): Promise<void>;
+    triggerShareTimeline(path: string): void;
+    onResize(path: string): Promise<void>;
+    triggerResize(path: string, opt: PageResizeObject): void;
+    onTabItemTap(path: string): Promise<void>;
+    triggerTabItemTap(path: string, opt: TabItemTapObject): void;
+    onSaveExitState(path: string): Promise<void>;
+    triggerSaveExitState(path: string): void;
+    onTitleClick(path: string): Promise<void>;
+    triggerTitleClick(path: string): void;
+    onOptionMenuClick(path: string): Promise<void>;
+    triggerOptionMenuClick(path: string): void;
+    onPopMenuClick(path: string): Promise<void>;
+    triggerPopMenuClick(path: string): void;
+    onPullIntercept(path: string): Promise<void>;
+    triggerPullIntercept(path: string): void;
+};
