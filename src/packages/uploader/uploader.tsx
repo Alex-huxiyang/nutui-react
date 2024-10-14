@@ -18,7 +18,6 @@ import { Preview } from '@/packages/uploader/preview'
 import { FileItem } from './file-item'
 
 export interface UploaderProps extends BasicComponent {
-  url: string
   maxCount: string | number
   maxFileSize: number
   defaultValue?: FileItem[]
@@ -33,12 +32,6 @@ export interface UploaderProps extends BasicComponent {
   disabled: boolean
   autoUpload: boolean
   multiple: boolean
-  timeout: number
-  data: any
-  method: string
-  xhrState: number | string
-  headers: any
-  withCredentials: boolean
   clearInput: boolean
   preview: boolean
   deletable: boolean
@@ -46,28 +39,11 @@ export interface UploaderProps extends BasicComponent {
   className: string
   previewUrl?: string
   style: React.CSSProperties
-  onStart?: (option: UploadOptions) => void
   onDelete?: (file: FileItem, files: FileItem[]) => void
-  onSuccess?: (param: {
-    responseText: XMLHttpRequest['responseText']
-    option: UploadOptions
-    files: FileItem[]
-  }) => void
-  onProgress?: (param: {
-    e: ProgressEvent<XMLHttpRequestEventTarget>
-    option: UploadOptions
-    percentage: string | number
-  }) => void
-  onFailure?: (param: {
-    responseText: XMLHttpRequest['responseText']
-    option: UploadOptions
-    files: FileItem[]
-  }) => void
   onUpdate?: (files: FileItem[]) => void
   onOversize?: (files: File[]) => void
   onChange?: (files: FileItem[]) => void
   beforeUpload?: (files: File[]) => Promise<File[] | boolean>
-  beforeXhrUpload?: (xhr: XMLHttpRequest, options: any) => void
   beforeDelete?: (file: FileItem, files: FileItem[]) => boolean
   onFileItemClick?: (file: FileItem, index: number) => void
 }
@@ -120,14 +96,7 @@ const InternalUploader: ForwardRefRenderFunction<
     fit,
     disabled,
     multiple,
-    url,
     previewUrl,
-    headers,
-    timeout,
-    method,
-    xhrState,
-    withCredentials,
-    data,
     preview,
     deletable,
     maxCount,
@@ -136,17 +105,12 @@ const InternalUploader: ForwardRefRenderFunction<
     className,
     autoUpload,
     clearInput,
-    onStart,
     onDelete,
     onChange,
     onFileItemClick,
-    onProgress,
-    onSuccess,
     onUpdate,
-    onFailure,
     onOversize,
     beforeUpload,
-    beforeXhrUpload,
     beforeDelete,
     ...restProps
   } = { ...defaultProps, ...props }
@@ -190,17 +154,10 @@ const InternalUploader: ForwardRefRenderFunction<
 
   const executeUpload = (fileItem: FileItem, index: number) => {
     const uploadOption = new UploadOptions()
-    uploadOption.url = url
-    for (const [key, value] of Object.entries<string | Blob>(data)) {
-      fileItem.formData?.append(key, value)
-    }
+    // for (const [key, value] of Object.entries<string | Blob>(data)) {
+    //   fileItem.formData?.append(key, value)
+    // }
     uploadOption.formData = fileItem.formData
-    uploadOption.timeout = timeout * 1
-    uploadOption.method = method
-    uploadOption.xhrState = xhrState
-    uploadOption.headers = headers
-    uploadOption.withCredentials = withCredentials
-    uploadOption.beforeXhrUpload = beforeXhrUpload
     try {
       uploadOption.sourceFile = fileItem.formData?.get(name)
     } catch (error) {
@@ -217,7 +174,6 @@ const InternalUploader: ForwardRefRenderFunction<
           return item
         })
       )
-      onStart?.(option)
     }
     uploadOption.onProgress = (
       e: ProgressEvent<XMLHttpRequestEventTarget>,
@@ -229,7 +185,6 @@ const InternalUploader: ForwardRefRenderFunction<
             item.status = UPLOADING
             item.message = locale.uploader.uploading
             item.percentage = ((e.loaded / e.total) * 100).toFixed(0)
-            onProgress?.({ e, option, percentage: item.percentage })
           }
           return item
         })
@@ -249,11 +204,6 @@ const InternalUploader: ForwardRefRenderFunction<
       })
       setFileList(list)
       onUpdate?.(list)
-      onSuccess?.({
-        responseText,
-        option,
-        files: list,
-      })
     }
     uploadOption.onFailure = (
       responseText: XMLHttpRequest['responseText'],
@@ -268,11 +218,6 @@ const InternalUploader: ForwardRefRenderFunction<
         return item
       })
       setFileList(list)
-      onFailure?.({
-        responseText,
-        option,
-        files: list,
-      })
     }
     const task = new Upload(uploadOption)
     if (autoUpload) {

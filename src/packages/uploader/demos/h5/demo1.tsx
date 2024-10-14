@@ -19,8 +19,6 @@ const Demo1 = () => {
       <Cell style={{ flexWrap: 'wrap', paddingBottom: '0px' }}>
         <Uploader
           beforeUpload={beforeUpload}
-          url={uploadUrl}
-          onStart={onStart}
           style={{
             marginInlineEnd: '10px',
             marginBottom: '10px',
@@ -30,17 +28,10 @@ const Demo1 = () => {
           }}
         />
         <Uploader
-          url={uploadUrl}
           uploadLabel="商品主图"
-          onStart={onStart}
           style={{ marginInlineEnd: '2px', marginBottom: '10px' }}
         />
-        <Uploader
-          url={uploadUrl}
-          uploadIcon={<Dongdong />}
-          onStart={onStart}
-          style={{ marginBottom: '10px' }}
-        />
+        <Uploader uploadIcon={<Dongdong />} style={{ marginBottom: '10px' }} />
       </Cell>
     </>
   )
