@@ -1,17 +1,17 @@
 import { ReactNode } from 'react'
 
 export class FileItem {
-  status: FileItemStatus = 'ready'
+  status?: FileItemStatus = 'ready'
 
-  message = ''
+  message? = ''
 
-  uid: string = new Date().getTime().toString()
+  uid: string | number = new Date().getTime().toString()
 
   name?: string
 
   url?: string
 
-  type?: string
+  type? = 'image'
 
   path?: string
 

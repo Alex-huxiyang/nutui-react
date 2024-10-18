@@ -25,6 +25,7 @@ export interface UploaderProps extends BasicComponent {
   value?: FileItem[]
   previewType: 'picture' | 'list'
   fit: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
+  upload: (file: File) => Promise<FileItem>
   uploadIcon?: React.ReactNode
   deleteIcon?: React.ReactNode
   uploadLabel?: React.ReactNode
@@ -296,7 +297,7 @@ const InternalUploader: ForwardRefRenderFunction<
       fileItem.status = 'ready'
       fileItem.type = file.type
       fileItem.formData = formData
-      fileItem.uid = file.lastModified + fileItem.uid
+      fileItem.uid = `${file.lastModified}${fileItem.uid}`
       fileItem.message = autoUpload
         ? locale.uploader.readyUpload
         : locale.uploader.waitingUpload
